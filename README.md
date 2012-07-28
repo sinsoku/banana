@@ -23,7 +23,7 @@ Or install it yourself as:
 3. add database name to migration
 4. as always run `rake db:create`, `rake db:migrate`, `rake db:drop`
 
-## Exsamples
+## Examples
 
 ```yaml
 # config/database.yml
