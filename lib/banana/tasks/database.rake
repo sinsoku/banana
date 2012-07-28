@@ -1,6 +1,7 @@
 tasks = Rake.application.instance_variable_get '@tasks'
 override_tasks = ['db:create', 'db:drop', 'db:migrate', 'db:schema:dump']
-override_tasks.each { |task_name| tasks.delete(task_name) }
+unsupported_tasks = ['db:schema:load']
+(override_tasks + unsupported_tasks).each { |task_name| tasks.delete(task_name) }
 
 db_namespace = namespace :db do
   desc 'Create the multiple databases from config/database.yml for the current Rails.env (use db:create:all to create all dbs in the config)'
