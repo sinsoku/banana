@@ -7,3 +7,5 @@ module Banana
     end
   end
 end
+
+require "banana/migration"
