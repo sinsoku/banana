@@ -4,9 +4,9 @@ require File.expand_path('../lib/banana/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["sinsoku"]
   gem.email         = ["sinsoku.listy@gmail.com"]
-  gem.description   = %q{}
-  gem.summary       = %q{}
-  gem.homepage      = ""
+  gem.description   = %q{A simple plugin for multiple databases in rails app.}
+  gem.summary       = %q{A simple plugin for multiple databases in rails app.}
+  gem.homepage      = "https://github.com/sinsoku/banana"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }

@@ -1,6 +1,6 @@
 # Banana
 
-TODO: Write a gem description
+A simple plugin for multiple databases in rails app.
 
 ## Installation
 
@@ -18,7 +18,75 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+1. add multiple database settings to `config/database.yml`
+2. add connection setting to model
+3. add database name to migration
+4. as always run `rake db:create`, `rake db:migrate`, `rake db:drop`
+
+## Exsamples
+
+```yaml
+# config/database.yml
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  pool: 5
+  username: root
+  password:
+  socket: /var/run/mysqld/mysqld.sock
+
+development:
+  <<: *default
+  database: fruit_development
+
+test:
+  <<: *default
+  database: fruit_test
+
+production:
+  <<: *default
+  database: fruit_production
+
+vegetable_development:
+  <<: *default
+  database: vegetable_development
+
+vegetable_test:
+  <<: *default
+  database: vegetable_test
+
+vegetable_production:
+  <<: *default
+  database: vegetable_production
+```
+
+
+```ruby
+# app/models/vegetable.rb
+class Vegetable < ActiveRecord::Base
+  establish_connection "vegetable_#{Rails.env}"
+end
+```
+```ruby
+# app/models/onion.rb
+class Onion < Vegetable
+end
+```
+
+```ruby
+# db/migrate/20120728121720_create_onions.rb
+class CreateOnions < ActiveRecord::Migration
+  DATABASE_NAME = "vegetable_#{Rails.env}"
+
+  def change
+    create_table :onions do |t|
+
+      t.timestamps
+    end
+  end
+end
+```
 
 ## Contributing
 
