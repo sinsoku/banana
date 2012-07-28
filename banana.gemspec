@@ -4,8 +4,8 @@ require File.expand_path('../lib/banana/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["sinsoku"]
   gem.email         = ["sinsoku.listy@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{}
+  gem.summary       = %q{}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($\)
