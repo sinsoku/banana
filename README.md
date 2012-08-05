@@ -1,4 +1,4 @@
-# Banana
+# Banana [![Build Status](https://secure.travis-ci.org/sinsoku/banana.png?branch=master)](http://travis-ci.org/sinsoku/banana)
 
 A simple plugin for multiple databases in rails app.
 
