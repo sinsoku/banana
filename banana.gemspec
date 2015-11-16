@@ -15,8 +15,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Banana::VERSION
 
-  gem.add_dependency 'activerecord', '~> 3.2'
-  gem.add_dependency 'railties', '~> 3.2'
+  gem.add_dependency 'activerecord', '>= 3.2'
+  gem.add_dependency 'railties', '>= 3.2'
 
   gem.add_development_dependency 'rspec'
 end

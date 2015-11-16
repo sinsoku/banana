@@ -5,7 +5,13 @@ override_tasks.each { |task_name| tasks.delete(task_name) }
 db_namespace = namespace :db do
   desc 'Create the multiple databases from config/database.yml for the current Rails.env (use db:create:all to create all dbs in the config)'
   task :create => :load_config do
-    configs_for_multi_environment.each { |config| create_database(config) }
+    configs_for_multi_environment.each do |config|
+      if Gem::Version.new(Rails.version) < Gem::Version.new('4.0.0')
+        create_database(config)
+      else
+        ActiveRecord::Tasks::DatabaseTasks.create config
+      end
+    end
   end
 
   desc "Migrate the database (options: VERSION=x, VERBOSE=false)."
@@ -21,7 +27,13 @@ db_namespace = namespace :db do
 
   desc 'Drops the multiple databases for the current Rails.env (use db:drop:all to drop all databases)'
   task :drop => :load_config do
-    configs_for_multi_environment.each { |config| drop_database_and_rescue(config) }
+    configs_for_multi_environment.each do |config|
+      if Gem::Version.new(Rails.version) < Gem::Version.new('4.0.0')
+        drop_database_and_rescue(config)
+      else
+        ActiveRecord::Tasks::DatabaseTasks.drop config
+      end
+    end
   end
 
   namespace :schema do
@@ -40,6 +52,6 @@ end
 
 def configs_for_multi_environment
   environments = ActiveRecord::Base.configurations.keys.select { |x| x =~ /#{Rails.env}$/ }
-  environments += ActiveRecord::Base.configurations.keys.select { |x| x =~ /test$/ } if Rails.env.development?
+  environments += ActiveRecord::Base.configurations.keys.select { |x| x =~ /test$/ } unless Rails.env.production?
   ActiveRecord::Base.configurations.values_at(*environments).compact.reject { |config| config['database'].blank? }
 end
