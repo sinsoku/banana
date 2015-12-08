@@ -16,7 +16,7 @@ db_namespace = namespace :db do
 
   desc "Migrate the database (options: VERSION=x, VERBOSE=false)."
   task :migrate => [:environment, :load_config] do
-    ActiveRecord::Base.establish_connection(Rails.env)
+    ActiveRecord::Base.establish_connection(Rails.env.to_sym)
 
     ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
     ActiveRecord::Migrator.migrate(ActiveRecord::Migrator.migrations_paths, ENV["VERSION"] ? ENV["VERSION"].to_i : nil) do |migration|
@@ -42,7 +42,7 @@ db_namespace = namespace :db do
       require 'banana/multidb_schema_dumper'
       filename = ENV['SCHEMA'] || "#{Rails.root}/db/schema.rb"
       File.open(filename, "w:utf-8") do |file|
-        environments = ActiveRecord::Base.configurations.keys.select { |x| x =~ /#{Rails.env}$/ }
+        environments = ActiveRecord::Base.configurations.keys.select { |x| x =~ /#{Rails.env}$/ }.map(&:to_sym)
         Banana::MultidbSchemaDumper.dump_multidb(environments, file)
       end
       db_namespace['schema:dump'].reenable
